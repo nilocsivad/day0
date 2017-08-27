@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		"
+	default-autowire="byName">
+
+
+
+	<!-- 
+	/// il8n 资源需在此处加载, 否则在 java 文件中执行
+	/// ContextLoader.getCurrentWebApplicationContext().getMessage(code, null, locale);
+	/// 取不到值
+	 -->
+	<bean class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="il8n.messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="useCodeAsDefaultMessage" value="true" />
+		<property name="fallbackToSystemLocale" value="true" />
+	</bean>
+
+
+
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.iam_vip.day0">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+
+
+
+
+	<context:property-placeholder location="classpath:config/datasource-mysql.properties" />
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.username}" />
+		<property name="password" value="${mysql.password}" />
+	</bean>
+
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:config/sqlMapConfig.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+
+
+
+
+
+
+	
+
+	<!-- 
+	/// 程序运行常量 ///
+	 -->
+	<bean class="com.iam_vip.day0.rs.util.ConstUtil" scope="singleton">
+		<constructor-arg name="mapData">
+			<map key-type="java.lang.String" value-type="java.lang.String">
+				
+				<!-- /// 资源文件夹对外访问前缀,对应 Tomcat <Context path="" /> /// -->
+				<entry key="ResourcePrefix" value="day0rs" />
+				<!-- /// 服务器本地资源文件夹,对应 Tomcat <Context docBase="" /> /// -->
+				<entry key="DocBase" value="D:/tmp/" />
+
+			</map>
+		</constructor-arg>
+		<constructor-arg name="numMapData">
+			<map key-type="java.lang.String" value-type="java.lang.Integer">
+			
+				<entry key="OnServer" value="0" />
+
+			</map>
+		</constructor-arg>
+	</bean>
+
+
+
+
+
+
+	<import resource="classpath:config/spring-util.xml" />
+
+
+</beans>

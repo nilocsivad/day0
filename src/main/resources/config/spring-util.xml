@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		"
+	default-autowire="byName">
+
+
+
+
+
+
+	<!-- 定时触发器 -->
+	<bean id="mp2017SchedulerTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="cronExpression" value="0 0 1 * * ?" />
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<!-- 是否允许任务并发执行 当值为false时 表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+				<property name="concurrent" value="false" />
+				<property name="targetMethod" value="doTask" />
+				<property name="targetObject">
+					<bean class="com.iam_vip.day0.rs.quartz.job.SchedulerTaskJob" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 定时触发器 -->
+	<bean id="mp2017SchedulerTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="cronExpression" value="5 0 1 * * ?" />
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<!-- 是否允许任务并发执行 当值为false时 表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+				<property name="concurrent" value="false" />
+				<property name="targetMethod" value="doTask" />
+				<property name="targetObject">
+					<bean class="com.iam_vip.day0.rs.quartz.job.SchedulerTaskJob2" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="autoStartup" value="true" />
+		<property name="triggers">
+			<list>
+				<ref bean="mp2017SchedulerTrigger1" />
+				<ref bean="mp2017SchedulerTrigger2" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+	
+	
+	
+	<!-- 
+	/// 页面相关配置 ///
+	 -->
+	<bean class="com.iam_vip.day0.rs.util.ViewUtil" scope="singleton">
+		<constructor-arg name="failMap">
+			<map key-type="java.lang.String" value-type="java.lang.String">		
+					
+				<!-- /// 后台 session 验证未通过跳转 URL /// -->
+				<entry key="ReqFail0" value="/req/unlimit/login/view.html" />
+				
+				<!-- /// Web 前台 session 验证未通过跳转 URL /// -->
+				<entry key="WebFail0" value="/web" />
+
+			</map>
+		</constructor-arg>
+		<constructor-arg name="unlimitMap">
+			<map key-type="java.lang.String" value-type="java.util.List">
+				<entry key="req">
+					<list value-type="java.lang.String">
+						<value>login</value>
+						<value>sign_in</value>
+					</list>
+				</entry>
+				<entry key="web">
+					<list value-type="java.lang.String">
+						<value>login</value>
+					</list>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+	/// JPush ///
+	/// apns_production:true(推送生产环境) false(推送开发环境) ///
+	 -->
+	<!-- <bean class="com.iam_vip.day0.rs.util.JPushUtil" scope="singleton">
+		<constructor-arg name="appKey" type="java.lang.String" value="c06b76ec16bca33725bfd918" />
+		<constructor-arg name="masterSecret" type="java.lang.String" value="0977d7cae5c66153f49e7abb" />
+		<constructor-arg name="apns_production" type="java.lang.Boolean" value="false" />
+	</bean> -->
+	
+	
+	
+	
+	
+	<!-- 
+	/// 32位唯一字符串ID ///
+	/**
+	 * /// 唯一 ID 尾部的三位标识, 对应服务器编号, 使用 36 进制编码 /// <br/>
+	 * 000 001 002 ... 00F 00G 00H ... 00X 00Y 00Z 010 011 012 ... <br/>
+	 * Long.parseLong("010", 36) = 36 (36进制中的010等于36) <br/>
+	 * 最大编号为 36*36*36=46656 (最大支持46656台服务器生成唯一编号)
+	 */
+	 -->
+	<bean class="com.iam_vip.day0.rs.util.IDUtil" scope="singleton">
+		<constructor-arg name="serverSerializableNo" type="java.lang.String" value="000" />
+	</bean>
+
+
+
+
+
+
+</beans>

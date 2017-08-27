@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+	<!-- 消费记录 -->
+	<typeAlias alias="XiaoFeiModel" type="com.iam_vip.day0.logic.model.XiaoFeiModel" />
+
+	<sql id="TABLE_XIAOFEI"> day0_xiao_fei </sql>
+
+
+
+
+
+	<insert id="XiaoFeiModel.save" parameterClass="XiaoFeiModel">
+		INSERT INTO
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="lineID" prepend=","> lineID </isNotEmpty>
+			<isNotEmpty property="dateID" prepend=","> dateID </isNotEmpty>
+			<isNotEmpty property="uid" prepend=","> uid </isNotEmpty>
+			<isNotEmpty property="howMuch" prepend=","> howMuch </isNotEmpty>
+		</dynamic>
+		VALUES
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="lineID" prepend=","> #lineID# </isNotEmpty>
+			<isNotEmpty property="dateID" prepend=","> #dateID# </isNotEmpty>
+			<isNotEmpty property="uid" prepend=","> #uid# </isNotEmpty>
+			<isNotEmpty property="howMuch" prepend=","> #howMuch# </isNotEmpty>
+		</dynamic>
+	</insert>
+
+
+	
+	
+	
+	
+	
+	<delete id="XiaoFeiModel.delete">
+		DELETE FROM
+		<include refid="TABLE_XIAOFEI" />
+		WHERE dateID = #dateID#
+	</delete>
+	
+	<delete id="XiaoFeiModel.deleteMulti">
+		DELETE FROM
+		<include refid="TABLE_XIAOFEI" />
+		WHERE
+		<dynamic prepend=" ">
+			<isNotEmpty property="lineID" prepend="AND"> lineID = #lineID# </isNotEmpty>
+			<isNotEmpty property="dateID" prepend="AND"> dateID = #dateID# </isNotEmpty>
+			<isNotEmpty property="uid" prepend="AND"> uid = #uid# </isNotEmpty>
+			<isNotEmpty property="howMuch" prepend="AND"> howMuch = #howMuch# </isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<delete id="XiaoFeiModel.deleteByIDs" parameterClass="java.util.HashMap">
+		DELETE FROM
+		<include refid="TABLE_XIAOFEI" />
+		WHERE
+		<iterate conjunction="OR" open="(" close=")" property="array">
+			dateID = #array[]#
+		</iterate>
+		<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+		<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+		<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+	</delete>
+	
+	
+	
+	
+	
+	<update id="XiaoFeiModel.update">
+		UPDATE
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="SET">	
+			<isNotEmpty prepend="," property="lineID"> lineID = #lineID# </isNotEmpty>
+			<isNotEmpty prepend="," property="uid"> uid = #uid# </isNotEmpty>
+			<isNotEmpty prepend="," property="howMuch"> howMuch = #howMuch# </isNotEmpty>
+		</dynamic>
+		WHERE dateID = #dateID#
+	</update>
+	
+	<update id="XiaoFeiModel.updateMulti">
+		UPDATE
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="SET">	
+			<isNotEmpty prepend="," property="to.lineID"> lineID = #to.lineID# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.uid"> uid = #to.uid# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.howMuch"> howMuch = #to.howMuch# </isNotEmpty>
+		</dynamic>
+		<isNull property="param"> error here </isNull>
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+		</dynamic>
+	</update>
+
+
+
+
+	
+	<select id="XiaoFeiModel.getOneByPK" remapResults="true" resultClass="XiaoFeiModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_XIAOFEI" />
+		WHERE dateID = #param#
+	</select>
+	
+	<select id="XiaoFeiModel.getOne" remapResults="true" resultClass="XiaoFeiModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+			<isNotEmpty property="param.dateID" prepend="AND"> dateID = #param.dateID# </isNotEmpty>
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+		</dynamic>
+		LIMIT 1
+	</select>
+	
+	<select id="XiaoFeiModel.getList" remapResults="true" resultClass="XiaoFeiModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="XiaoFeiModel.getCountInt" resultClass="int">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="lineID" prepend="AND"> lineID = #lineID# </isNotEmpty>
+			<isNotEmpty property="dateID" prepend="AND"> dateID = #dateID# </isNotEmpty>
+			<isNotEmpty property="uid" prepend="AND"> uid = #uid# </isNotEmpty>
+			<isNotEmpty property="howMuch" prepend="AND"> howMuch = #howMuch# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="XiaoFeiModel.getCountLong" resultClass="long">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="lineID" prepend="AND"> lineID = #lineID# </isNotEmpty>
+			<isNotEmpty property="uid" prepend="AND"> uid = #uid# </isNotEmpty>
+			<isNotEmpty property="howMuch" prepend="AND"> howMuch = #howMuch# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="XiaoFeiModel.getCountLongMap" resultClass="long">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="XiaoFeiModel.getPageList" remapResults="true" resultClass="XiaoFeiModel" parameterClass="java.util.HashMap">
+		SELECT $columns$ FROM
+		<include refid="TABLE_XIAOFEI" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.lineID" prepend="AND"> lineID = #param.lineID# </isNotEmpty>
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.howMuch" prepend="AND"> howMuch = #param.howMuch# </isNotEmpty>
+		</dynamic>
+		ORDER BY $sort$ $order$
+		LIMIT $begin$, $end$
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<resultMap class="XiaoFeiModel" id="XiaoFeiModel.ResultMap">
+		<result property="lineID" column="LINEID" />
+		<result property="dateID" column="DATEID" />
+		<result property="uid" column="UID" />
+		<result property="howMuch" column="HOWMUCH" />
+	</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sqlMap>

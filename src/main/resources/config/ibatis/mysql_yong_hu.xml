@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+	<!-- 手机用户表 -->
+	<typeAlias alias="YongHuModel" type="com.iam_vip.day0.logic.model.YongHuModel" />
+
+	<sql id="TABLE_YONGHU"> day0_yong_hu </sql>
+
+
+
+
+
+	<insert id="YongHuModel.save" parameterClass="YongHuModel">
+		INSERT INTO
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="uid" prepend=","> uid </isNotEmpty>
+			<isNotEmpty property="createAt" prepend=","> createAt </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> nickName </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> balance </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> mphone </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> wechat </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> email </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> gender </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> birthday </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> statusVal </isNotEmpty>
+		</dynamic>
+		VALUES
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="uid" prepend=","> #uid# </isNotEmpty>
+			<isNotEmpty property="createAt" prepend=","> #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> #statusVal# </isNotEmpty>
+		</dynamic>
+	</insert>
+
+
+	<insert id="YongHuModel.saveReturnInt" parameterClass="YongHuModel">
+		INSERT INTO
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="createAt" prepend=","> createAt </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> nickName </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> balance </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> mphone </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> wechat </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> email </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> gender </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> birthday </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> statusVal </isNotEmpty>
+		</dynamic>
+		VALUES
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="createAt" prepend=","> #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> #statusVal# </isNotEmpty>
+		</dynamic>
+		<selectKey resultClass="int" keyProperty="uid">
+			SELECT LAST_INSERT_ID() AS uid    
+	    </selectKey>
+	</insert>
+	
+	
+	<insert id="YongHuModel.saveReturnLong" parameterClass="YongHuModel">
+		INSERT INTO
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="createAt" prepend=","> createAt </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> nickName </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> balance </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> mphone </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> wechat </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> email </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> gender </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> birthday </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> statusVal </isNotEmpty>
+		</dynamic>
+		VALUES
+		<dynamic prepend="(" close=")">
+			<isNotEmpty property="createAt" prepend=","> #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend=","> #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend=","> #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend=","> #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend=","> #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend=","> #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend=","> #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend=","> #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend=","> #statusVal# </isNotEmpty>
+		</dynamic>
+		<selectKey resultClass="long" keyProperty="uid">
+			SELECT LAST_INSERT_ID() AS uid    
+	    </selectKey>
+	</insert>
+	
+	
+	
+	
+	
+	<delete id="YongHuModel.delete">
+		DELETE FROM
+		<include refid="TABLE_YONGHU" />
+		WHERE uid = #uid#
+	</delete>
+	
+	<delete id="YongHuModel.deleteMulti">
+		DELETE FROM
+		<include refid="TABLE_YONGHU" />
+		WHERE
+		<dynamic prepend=" ">
+			<isNotEmpty property="uid" prepend="AND"> uid = #uid# </isNotEmpty>
+			<isNotEmpty property="createAt" prepend="AND"> createAt = #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend="AND"> nickName = #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend="AND"> balance = #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend="AND"> mphone = #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend="AND"> wechat = #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend="AND"> email = #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend="AND"> gender = #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend="AND"> birthday = #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend="AND"> statusVal = #statusVal# </isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<delete id="YongHuModel.deleteByIDs" parameterClass="java.util.HashMap">
+		DELETE FROM
+		<include refid="TABLE_YONGHU" />
+		WHERE
+		<iterate conjunction="OR" open="(" close=")" property="array">
+			uid = #array[]#
+		</iterate>
+		<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+		<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+		<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+		<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+		<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+		<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+		<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+		<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+		<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+	</delete>
+	
+	
+	
+	
+	
+	<update id="YongHuModel.update">
+		UPDATE
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="SET">	
+			<isNotEmpty prepend="," property="createAt"> createAt = #createAt# </isNotEmpty>
+			<isNotEmpty prepend="," property="nickName"> nickName = #nickName# </isNotEmpty>
+			<isNotEmpty prepend="," property="balance"> balance = #balance# </isNotEmpty>
+			<isNotEmpty prepend="," property="mphone"> mphone = #mphone# </isNotEmpty>
+			<isNotEmpty prepend="," property="wechat"> wechat = #wechat# </isNotEmpty>
+			<isNotEmpty prepend="," property="email"> email = #email# </isNotEmpty>
+			<isNotEmpty prepend="," property="gender"> gender = #gender# </isNotEmpty>
+			<isNotEmpty prepend="," property="birthday"> birthday = #birthday# </isNotEmpty>
+			<isNotEmpty prepend="," property="statusVal"> statusVal = #statusVal# </isNotEmpty>
+		</dynamic>
+		WHERE uid = #uid#
+	</update>
+	
+	<update id="YongHuModel.updateMulti">
+		UPDATE
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="SET">	
+			<isNotEmpty prepend="," property="to.createAt"> createAt = #to.createAt# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.nickName"> nickName = #to.nickName# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.balance"> balance = #to.balance# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.mphone"> mphone = #to.mphone# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.wechat"> wechat = #to.wechat# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.email"> email = #to.email# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.gender"> gender = #to.gender# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.birthday"> birthday = #to.birthday# </isNotEmpty>
+			<isNotEmpty prepend="," property="to.statusVal"> statusVal = #to.statusVal# </isNotEmpty>
+		</dynamic>
+		<isNull property="param"> error here </isNull>
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+			<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+			<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+			<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+			<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+			<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+			<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+			<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+			<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+		</dynamic>
+	</update>
+
+
+
+
+	
+	<select id="YongHuModel.getOneByPK" remapResults="true" resultClass="YongHuModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_YONGHU" />
+		WHERE uid = #param#
+	</select>
+	
+	<select id="YongHuModel.getOne" remapResults="true" resultClass="YongHuModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.uid" prepend="AND"> uid = #param.uid# </isNotEmpty>
+			<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+			<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+			<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+			<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+			<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+			<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+			<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+			<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+			<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+		</dynamic>
+		LIMIT 1
+	</select>
+	
+	<select id="YongHuModel.getList" remapResults="true" resultClass="YongHuModel">
+		SELECT $columns$ FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+			<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+			<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+			<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+			<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+			<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+			<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+			<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+			<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="YongHuModel.getCountInt" resultClass="int">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="uid" prepend="AND"> uid = #uid# </isNotEmpty>
+			<isNotEmpty property="createAt" prepend="AND"> createAt = #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend="AND"> nickName = #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend="AND"> balance = #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend="AND"> mphone = #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend="AND"> wechat = #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend="AND"> email = #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend="AND"> gender = #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend="AND"> birthday = #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend="AND"> statusVal = #statusVal# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="YongHuModel.getCountLong" resultClass="long">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="createAt" prepend="AND"> createAt = #createAt# </isNotEmpty>
+			<isNotEmpty property="nickName" prepend="AND"> nickName = #nickName# </isNotEmpty>
+			<isNotEmpty property="balance" prepend="AND"> balance = #balance# </isNotEmpty>
+			<isNotEmpty property="mphone" prepend="AND"> mphone = #mphone# </isNotEmpty>
+			<isNotEmpty property="wechat" prepend="AND"> wechat = #wechat# </isNotEmpty>
+			<isNotEmpty property="email" prepend="AND"> email = #email# </isNotEmpty>
+			<isNotEmpty property="gender" prepend="AND"> gender = #gender# </isNotEmpty>
+			<isNotEmpty property="birthday" prepend="AND"> birthday = #birthday# </isNotEmpty>
+			<isNotEmpty property="statusVal" prepend="AND"> statusVal = #statusVal# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="YongHuModel.getCountLongMap" resultClass="long">
+		SELECT COUNT(*) FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+			<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+			<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+			<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+			<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+			<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+			<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+			<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+			<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="YongHuModel.getPageList" remapResults="true" resultClass="YongHuModel" parameterClass="java.util.HashMap">
+		SELECT $columns$ FROM
+		<include refid="TABLE_YONGHU" />
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="param.createAt" prepend="AND"> createAt = #param.createAt# </isNotEmpty>
+			<isNotEmpty property="param.nickName" prepend="AND"> nickName = #param.nickName# </isNotEmpty>
+			<isNotEmpty property="param.balance" prepend="AND"> balance = #param.balance# </isNotEmpty>
+			<isNotEmpty property="param.mphone" prepend="AND"> mphone = #param.mphone# </isNotEmpty>
+			<isNotEmpty property="param.wechat" prepend="AND"> wechat = #param.wechat# </isNotEmpty>
+			<isNotEmpty property="param.email" prepend="AND"> email = #param.email# </isNotEmpty>
+			<isNotEmpty property="param.gender" prepend="AND"> gender = #param.gender# </isNotEmpty>
+			<isNotEmpty property="param.birthday" prepend="AND"> birthday = #param.birthday# </isNotEmpty>
+			<isNotEmpty property="param.statusVal" prepend="AND"> statusVal = #param.statusVal# </isNotEmpty>
+		</dynamic>
+		ORDER BY $sort$ $order$
+		LIMIT $begin$, $end$
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<resultMap class="YongHuModel" id="YongHuModel.ResultMap">
+		<result property="uid" column="UID" />
+		<result property="createAt" column="CREATEAT" />
+		<result property="nickName" column="NICKNAME" />
+		<result property="balance" column="BALANCE" />
+		<result property="mphone" column="MPHONE" />
+		<result property="wechat" column="WECHAT" />
+		<result property="email" column="EMAIL" />
+		<result property="gender" column="GENDER" />
+		<result property="birthday" column="BIRTHDAY" />
+		<result property="statusVal" column="STATUSVAL" />
+	</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sqlMap>
